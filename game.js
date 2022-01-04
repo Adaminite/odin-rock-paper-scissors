@@ -110,8 +110,9 @@ function playGame(numRounds){
             console.log(`You Lose! ${computerChoice} beats ${playerChoice}.`);
         }
         else{
+            console.log(`Tie! Both players chose ${playerChoice}.`);
             playerScore += 0.5;
-            computerChoice += 0.5;
+            computerScore += 0.5;
         }
     }
 
