@@ -1,10 +1,13 @@
-
+// helper for computerPlay()
 function getRandInt(bound){
     return Math.floor(Math.random() * bound);
 }
 
+// get's computer's move
 function computerPlay(){
+
     let randInt = getRandInt(2);
+
     let choice;
     if(randInt === 0){
         choice = "rock"
@@ -15,11 +18,14 @@ function computerPlay(){
     }
 
     return choice;
+
 }
 
+// gets player's move
 function playerPlay(){
     let choice;
     while(true){
+
         choice = window.prompt("Rock, Paper, or Scissors?");
 
         choice = choice.toLowerCase();
@@ -29,9 +35,11 @@ function playerPlay(){
         }
 
         window.alert("Invalid choice. Try again");
+
     }
 
     return choice;
+
 }
 
 function playRound(playerChoice, computerChoice){
@@ -73,12 +81,17 @@ function playRound(playerChoice, computerChoice){
             return "win";
         } 
     }
+
 }
 
 function playGame(numRounds){
+    // counters for score
     let playerScore = 0;
     let computerScore = 0;
+
     for(let i = 0; i < numRounds; i++){
+
+        // play the round
         let playerChoice = playerPlay();
         let computerChoice = computerPlay();
         let result = playRound(playerChoice, computerChoice);
@@ -86,6 +99,8 @@ function playGame(numRounds){
         // capitalize the choices for displaying result
         playerChoice = playerChoice.charAt(0).toUpperCase + playerChoice.substring(1, playerChoice.length);
         computerChoice = computerChoice.charAt(0).toUpperCase() + computerChoice.substring(1, computerChoice.length);
+
+        // cases
         if(result === "win"){
             playerScore++;
             console.log(`You Win! ${playerChoice} beats ${computerChoice}.`);
@@ -100,16 +115,19 @@ function playGame(numRounds){
         }
     }
 
+    // final results of the game
     if(playerScore === computerScore){
-        console.log(`The final score is You ${playerScore} - ${computerScore} CPU. It's a tie!`);
+        return `The final score is You ${playerScore} - ${computerScore} CPU. It's a tie!`;
     }
     else if(playerScore > computerScore){
-        console.log(`The final score is You ${playerScore} - ${computerScore} CPU. You win!`);
+        return `The final score is You ${playerScore} - ${computerScore} CPU. You win!`;
     }
     else{
-        console.log(`The final score is You ${playerScore} - ${computerScore} CPU. You lose!`);
+        return `The final score is You ${playerScore} - ${computerScore} CPU. You lose!`;
     }
 
 }
 
-playGame(5);
+let result = playGame(5);
+console.log(result);
+
