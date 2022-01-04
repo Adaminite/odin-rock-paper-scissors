@@ -97,7 +97,7 @@ function playGame(numRounds){
         let result = playRound(playerChoice, computerChoice);
         
         // capitalize the choices for displaying result
-        playerChoice = playerChoice.charAt(0).toUpperCase + playerChoice.substring(1, playerChoice.length);
+        playerChoice = playerChoice.charAt(0).toUpperCase() + playerChoice.substring(1, playerChoice.length);
         computerChoice = computerChoice.charAt(0).toUpperCase() + computerChoice.substring(1, computerChoice.length);
 
         // cases
