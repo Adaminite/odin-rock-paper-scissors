@@ -1,9 +1,120 @@
+let playerScore = 0;
+let computerScore = 0;
+
+const buttons = document.querySelectorAll('button');
+
+for(let button of buttons){
+    button.addEventListener('click', playRound);
+}
+
+// plays each round once a button is clicked
+function playRound(e){
+    let playerChoice = e.target.getAttribute('id');
+    let computerChoice = computerPlay();
+
+    let roundResult = getRoundResult(playerChoice, computerChoice);
+
+    let broadcaster = document.getElementById('result');
+
+    playerChoice = playerChoice.charAt(0).toUpperCase() + playerChoice.substring(1, playerChoice.length);
+    computerChoice = computerChoice.charAt(0).toUpperCase() + computerChoice.substring(1, computerChoice.length);
+    
+    
+    if(roundResult === "draw"){
+        broadcaster.textContent = `Tie! Both players chose ${playerChoice}.`;
+    }
+
+    else{
+
+        if(roundResult === "win"){
+            broadcaster.textContent = `You won! ${playerChoice} beats ${computerChoice}.`
+            playerScore++;
+        }
+        else{
+            broadcaster.textContent = `You lost! ${computerChoice} beats ${playerChoice}.`;
+            computerScore++;
+        }
+
+        let scoreboard = document.getElementById('score');
+        scoreboard.textContent = `You ${playerScore} : ${computerScore} CPU`;
+
+        if(playerScore === 5 || computerScore === 5){
+
+            let btns = document.querySelectorAll('button');
+            btns.forEach( (btn) => {
+                btn.remove();
+            });
+
+            let subheader = document.querySelector('#sub-header');
+            subheader.remove();
+            
+            if(playerScore === 5){
+                broadcaster.textContent = "Congratulations! You beat the computer!";
+            }
+            else{
+                broadcaster.textContent = "Better luck next time. You were so close!";
+            }
+
+            let playAgain = document.createElement('button');
+            playAgain.textContent = "Play Again";
+            playAgain.addEventListener('click', () =>{
+                window.location.reload();
+            });
+
+            document.querySelector('body').appendChild(playAgain);
+        }
+    }
+}
+
+// helper for playRound()
+function getRoundResult(playerChoice, computerChoice){
+
+        // handle case in which they draw
+        if(playerChoice === computerChoice){
+            return "draw";
+        }
+        
+        // if player chose rock
+        if(playerChoice === "rock"){
+    
+            if(computerChoice === "paper"){
+                return "loss";
+            }
+            else{
+                return "win";
+            }
+        }
+    
+        // if player choice paper
+        else if(playerChoice === "paper"){
+    
+            if(computerChoice === "scissors"){
+                return "loss";
+            }
+            else{
+                return "win";
+            }
+        }
+    
+        // if player chose scissors
+        else{
+    
+            if(computerChoice === "rock"){
+                return "loss";
+            }
+            else{
+                return "win";
+            } 
+        }
+}
+
+
 // helper for computerPlay()
 function getRandInt(bound){
     return Math.floor(Math.random() * bound);
 }
 
-// get's computer's move
+
 function computerPlay(){
 
     let randInt = getRandInt(2);
@@ -21,114 +132,4 @@ function computerPlay(){
 
 }
 
-// gets player's move
-function playerPlay(){
-    let choice;
-    while(true){
-
-        choice = window.prompt("Rock, Paper, or Scissors?");
-
-        choice = choice.toLowerCase();
-
-        if(choice === "rock" || choice === "paper" || choice === "scissors"){
-            break;
-        }
-
-        window.alert("Invalid choice. Try again");
-
-    }
-
-    return choice;
-
-}
-
-function playRound(playerChoice, computerChoice){
-    
-    // handle case in which they draw
-    if(playerChoice === computerChoice){
-        return "draw";
-    }
-    
-    // if player chose rock
-    if(playerChoice === "rock"){
-
-        if(computerChoice === "paper"){
-            return "loss";
-        }
-        else{
-            return "win";
-        }
-    }
-
-    // if player choice paper
-    else if(playerChoice === "paper"){
-
-        if(computerChoice === "scissors"){
-            return "loss";
-        }
-        else{
-            return "win";
-        }
-    }
-
-    // if player chose scissors
-    else{
-
-        if(computerChoice === "rock"){
-            return "loss";
-        }
-        else{
-            return "win";
-        } 
-    }
-
-}
-
-function playGame(numRounds){
-    // counters for score
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for(let i = 0; i < numRounds; i++){
-
-        // play the round
-        let playerChoice = playerPlay();
-        let computerChoice = computerPlay();
-        let result = playRound(playerChoice, computerChoice);
-        
-        // capitalize the choices for displaying result
-        playerChoice = playerChoice.charAt(0).toUpperCase() + playerChoice.substring(1, playerChoice.length);
-        computerChoice = computerChoice.charAt(0).toUpperCase() + computerChoice.substring(1, computerChoice.length);
-
-        // cases
-        if(result === "win"){
-            playerScore++;
-            console.log(`You Win! ${playerChoice} beats ${computerChoice}.`);
-        }
-        else if(result === "loss"){
-            computerScore++;
-            console.log(`You Lose! ${computerChoice} beats ${playerChoice}.`);
-        }
-        else{
-            console.log(`Tie! Both players chose ${playerChoice}.`);
-            playerScore += 0.5;
-            computerScore += 0.5;
-        }
-    }
-
-    // final results of the game
-    if(playerScore === computerScore){
-        return `The final score is You ${playerScore} - ${computerScore} CPU. It's a tie!`;
-    }
-    else if(playerScore > computerScore){
-        return `The final score is You ${playerScore} - ${computerScore} CPU. You win!`;
-    }
-    else{
-        return `The final score is You ${playerScore} - ${computerScore} CPU. You lose!`;
-    }
-
-}
-
-let result = playGame(5);
-console.log(result);
 
