@@ -117,12 +117,12 @@ function getRandInt(bound){
 
 function computerPlay(){
 
-    let randInt = getRandInt(2);
+    let randInt = getRandInt(100);
 
     let choice;
-    if(randInt === 0){
+    if(randInt < 33){
         choice = "rock"
-    } else if(randInt === 1){
+    } else if(randInt < 67){
         choice = "paper";
     } else{
         choice = "scissors";
